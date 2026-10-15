@@ -40,8 +40,18 @@ button{background:#ffb703;color:#222;border:0;border-radius:999px;font-size:18px
 .card{width:min(78vw,300px);background:#f0ece4;border-radius:14px;overflow:hidden;text-align:center;box-shadow:0 5px 0 rgba(0,0,0,.25)}.card b{display:block;background:#a6f0bb;color:#0a5a22;padding:8px;font-size:15px}.card div{padding:14px;font-size:34px;font-weight:900;color:#0a7a2e}
 .play{width:min(78vw,300px);font-size:28px;padding:16px;border-radius:16px;background:#ffb703;box-shadow:0 6px 0 #c47f00;color:#fff;text-shadow:0 2px 0 rgba(0,0,0,.25)}
 @keyframes p{0%{opacity:1;transform:translate(-50%,10px) scale(.6)}30%{transform:translate(-50%,0) scale(1.2)}100%{opacity:0;transform:translate(-50%,-60px) scale(1)}}
+
+.ver{position:absolute;top:calc(24px + env(safe-area-inset-top,0px));left:18px;font-size:14px;font-weight:700;opacity:.9;text-shadow:0 2px 0 rgba(0,0,0,.2)}
+.upd{position:absolute;top:calc(14px + env(safe-area-inset-top,0px));right:16px}
+.ub{position:relative;background:#f0ece4;color:#0a6a2a;font-size:15px;font-weight:800;padding:9px 18px;border-radius:999px;box-shadow:0 4px 0 rgba(0,0,0,.25)}
+.ub.has{background:#fff;color:#c2410c}.ub.has::after{content:"";position:absolute;top:-4px;right:-3px;width:14px;height:14px;border-radius:50%;background:#ff3b30;border:2px solid #fff}
+#um{position:absolute;inset:0;background:rgba(0,40,15,.62);display:none;align-items:center;justify-content:center;z-index:3}
+#um .m{background:#f0ece4;color:#0a5a22;border-radius:20px;padding:24px 22px 18px;width:min(86vw,330px);text-align:center;box-shadow:0 7px 0 rgba(0,0,0,.25)}
+#um h3{margin:0 0 8px;font-size:22px}#um p{margin:0 0 14px;font-size:15px;line-height:1.5;color:#2d6a3f}
+#um button{width:100%;font-size:18px;padding:13px}#uy{background:#ffb703;color:#fff;box-shadow:0 5px 0 #c47f00;text-shadow:0 2px 0 rgba(0,0,0,.2)}#ul{background:transparent;color:#2d6a3f;font-size:15px;margin-top:6px;padding:8px}
+#toast{position:absolute;bottom:calc(32px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);background:#06501f;color:#fff;padding:11px 20px;border-radius:999px;font-size:15px;font-weight:700;opacity:0;transition:opacity .3s;pointer-events:none;z-index:4;white-space:nowrap;box-shadow:0 4px 0 rgba(0,0,0,.25)}#toast.on{opacity:1}
 </style><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="apple-touch-icon.png"><link rel="icon" href="icon-192.png" type="image/png"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Sodhar Blocks"><meta name="theme-color" content="#079a35">
-<script>if("serviceWorker" in navigator)addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}))</script>
+<script>if("serviceWorker" in navigator)addEventListener("load",()=>navigator.serviceWorker.register("sw.js").then(r=>{window.swReg=r;dispatchEvent(new Event("swready"))}).catch(()=>{}))</script>
 </head><body>
 <div class="wrap">
  <h1 aria-label="Sodhar Blocks"><span class="w"><i class="a">S</i><i class="b">O</i><i class="c">D</i><i class="d">H</i><i class="a">A</i><i class="b">R</i></span><span class="w"><i class="c">B</i><i class="d">L</i><i class="a">O</i><i class="b">C</i><i class="c">K</i><i class="d">S</i></span></h1>
@@ -52,7 +62,7 @@ button{background:#ffb703;color:#222;border:0;border-radius:999px;font-size:18px
 </div>
 <div id="drag"></div><div id="pop"></div>
 <div id="set"><h2>Settings</h2><button id="rs">Replay</button><button class="hm" id="hm">Home</button><button class="cl" id="cl">Resume</button></div>
-<div id="intro"><div class="ph on"><div class="st">SODHAR<small>STUDIO</small></div></div><div class="ph"><div class="ttl"></div><div class="ld"><i></i><i style="animation-delay:.25s"></i><i style="animation-delay:.5s"></i><i style="animation-delay:.75s"></i></div></div><div class="ph"><div class="ttl"></div><div class="card"><b>BEST SCORE</b><div>&#128081; <span id="ib">0</span></div></div><button class="play" id="play">Play</button><button class="play" id="ins" style="display:none;background:#4cc9f0;box-shadow:0 6px 0 #1a8fb5;margin-top:-10px">Install App</button></div></div>
+<div id="intro"><div class="ph on"><div class="st">SODHAR<small>STUDIO</small></div></div><div class="ph"><div class="ttl"></div><div class="ld"><i></i><i style="animation-delay:.25s"></i><i style="animation-delay:.5s"></i><i style="animation-delay:.75s"></i></div></div><div class="ph"><div class="ver" id="ver"></div><div class="upd"><button class="ub" id="ub">Update</button></div><div class="ttl"></div><div class="card"><b>BEST SCORE</b><div>&#128081; <span id="ib">0</span></div></div><button class="play" id="play">Play</button><button class="play" id="ins" style="display:none;background:#4cc9f0;box-shadow:0 6px 0 #1a8fb5;margin-top:-10px">Install App</button></div><div id="um"><div class="m"><h3>Update available</h3><p>A new version of Sodhar Blocks is ready. Your best score stays saved.</p><button id="uy">Update now</button><button id="ul">Later</button></div></div><div id="toast"></div></div>
 <div id="over"><h2>Game Over</h2><div>Score: <b id="fs">0</b></div><button id="again">Try Again</button></div>
 <script>
 const N=8,COL=['#e8373d','#e86ad4','#3f7be8','#37b24d','#22c7e0','#f5b700'];
@@ -140,6 +150,23 @@ const row=(s,o)=>`<span class="w">${[...s].map((c,i)=>`<i class="${"abcd"[(i+o)%
 document.querySelectorAll(".ttl").forEach(e=>e.innerHTML=`<div class="cr">&#128081;</div><h1 aria-label="Sodhar Blocks">${row("SODHAR",0)}${row("BLOCKS",2)}</h1>`);
 const ph=n=>document.querySelectorAll(".ph").forEach((e,i)=>e.classList.toggle("on",i===n));
 setTimeout(()=>ph(1),1500);setTimeout(()=>{$("ib").textContent=best;ph(2)},3600);
+const ub=$("ub"),um=$("um"),toast=$("toast");
+function say(t){toast.textContent=t;toast.classList.add("on");clearTimeout(say.t);say.t=setTimeout(()=>toast.classList.remove("on"),2600)}
+function markNew(){ub.classList.add("has");ub.textContent="Update ready"}
+function watch(r){if(r.waiting&&navigator.serviceWorker.controller)markNew();r.addEventListener("updatefound",()=>{const w=r.installing;if(w)w.addEventListener("statechange",()=>{if(w.state==="installed"&&navigator.serviceWorker.controller)markNew()})})}
+addEventListener("swready",()=>{watch(swReg);swReg.update().catch(()=>{})});
+if(window.caches)caches.keys().then(k=>{const v=k.map(x=>/-v(\d+)$/.exec(x)).filter(Boolean).map(m=>+m[1]).sort((a,b)=>a-b)[0];if(v)$("ver").textContent="Version "+v}).catch(()=>{});
+ub.onclick=async()=>{
+ if(ub.classList.contains("has")){um.style.display="flex";return}
+ if(!window.swReg){say("Updates not available here");return}
+ if(!navigator.onLine){say("No internet connection");return}
+ ub.textContent="Checking...";
+ try{await swReg.update();
+  if(!swReg.waiting&&swReg.installing)await new Promise(res=>{const w=swReg.installing;w.addEventListener("statechange",()=>{if(w.state==="installed"||w.state==="redundant")res()});setTimeout(res,8000)});
+  if(swReg.waiting&&navigator.serviceWorker.controller){markNew();um.style.display="flex"}else{ub.textContent="Update";say("You're up to date \u2713")}
+ }catch(e){ub.textContent="Update";say("Couldn't check. Try again online")}};
+$("ul").onclick=()=>um.style.display="none";
+$("uy").onclick=()=>{const w=swReg&&swReg.waiting;if(!w)return;$("uy").textContent="Updating...";navigator.serviceWorker.addEventListener("controllerchange",()=>location.reload(),{once:true});w.postMessage({type:"SKIP_WAITING"})};
 let dp=null;const ins=$("ins");
 addEventListener("beforeinstallprompt",e=>{e.preventDefault();dp=e;ins.style.display=""});
 addEventListener("appinstalled",()=>{dp=null;ins.style.display="none"});
